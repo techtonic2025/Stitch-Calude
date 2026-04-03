@@ -1,0 +1,191 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Ripple button CSS variables (Tailwind 3 compatible) */
+:root {
+  --button-ripple-color: rgba(20, 20, 20, 0.3);
+  --foreground: #dce4e4;
+  --background: #0d1515;
+}
+
+.dark {
+  --button-ripple-color: rgba(255, 255, 255, 0.25);
+}
+
+@layer base {
+  body {
+    @apply bg-surface text-on-surface font-body;
+    overflow-x: hidden;
+  }
+  ::selection {
+    @apply bg-primary/30 text-primary;
+  }
+}
+
+@layer components {
+  .glass-card {
+    background: rgba(46, 54, 54, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .glass-nav {
+    background: rgba(13, 21, 21, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .neon-glow {
+    box-shadow: 0 0 20px rgba(77, 219, 202, 0.15);
+  }
+
+  .neon-glow-strong {
+    box-shadow: 0 0 40px rgba(77, 219, 202, 0.25);
+  }
+
+  .atmospheric-glow-hero {
+    background:
+      radial-gradient(circle at 60% 40%, rgba(30, 190, 174, 0.15) 0%, transparent 60%),
+      radial-gradient(circle at 20% 60%, rgba(0, 218, 243, 0.1) 0%, transparent 50%);
+  }
+
+  .atmospheric-glow-divider {
+    background: radial-gradient(ellipse at 50% 50%, rgba(30, 190, 174, 0.12) 0%, transparent 70%);
+  }
+
+  .lighting-orb {
+    filter: blur(120px);
+    opacity: 0.4;
+  }
+
+  .text-glow-primary {
+    text-shadow: 0 0 15px rgba(77, 219, 202, 0.3);
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary to-primary-container text-on-primary-container font-semibold rounded-full transition-all hover:brightness-110 active:scale-95;
+    box-shadow: 0 0 20px rgba(77, 219, 202, 0.2);
+  }
+
+  .btn-ghost {
+    @apply border border-outline-variant/30 text-on-surface font-semibold rounded-full hover:bg-surface-bright transition-colors;
+  }
+
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+
+  /* Aurora background scene */
+  .scene {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .floor {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120%;
+    height: 2px;
+    background: var(--light-color);
+    box-shadow: 0 0 40px 10px var(--glow-color-1);
+    animation: floorGlow 3s ease-in-out infinite alternate;
+  }
+
+  .main-column {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(to top, var(--light-color), transparent 70%);
+    animation: mainGlow 4s ease-in-out infinite alternate;
+  }
+
+  .light-stream-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .light-beam {
+    position: absolute;
+    bottom: 0;
+    height: 35%;
+    background: linear-gradient(to top, var(--glow-color-1), var(--glow-color-2), transparent);
+    border-radius: 1px;
+    animation-name: rise, fade;
+    animation-timing-function: linear, ease-in-out;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+    box-shadow: 0 0 6px var(--glow-color-2);
+  }
+}
+
+/* Aurora CSS variables */
+:root {
+  --light-color: #00ff7f;
+  --glow-color-1: rgba(0, 255, 127, 0.8);
+  --glow-color-2: rgba(60, 255, 157, 0.6);
+}
+
+/* Aurora keyframe animations */
+@keyframes rise {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-10%);
+    opacity: 0;
+  }
+}
+
+@keyframes fade {
+  0%, 100% {
+    opacity: 0;
+  }
+  5%, 80% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes floorGlow {
+  0%, 100% {
+    transform: translateX(-50%) scale(0.9);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateX(-50%) scale(1.1);
+    opacity: 1;
+  }
+}
+
+@keyframes mainGlow {
+  from {
+    opacity: 0.6;
+    filter: blur(25px);
+  }
+  to {
+    opacity: 0.8;
+    filter: blur(15px);
+  }
+}
+
+@keyframes moveGrid {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -80px -40px;
+  }
+}
