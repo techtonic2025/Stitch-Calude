@@ -1,0 +1,15 @@
+node_modules/
+**/node_modules/
+.DS_Store
+dist/
+build/
+.env
+*.log
+stitch_extracted/
+stitch.zip
+.claude/
+node_modules/
+**/node_modules/
+dist/
+build/
+.DS_Store
