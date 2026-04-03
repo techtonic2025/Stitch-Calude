@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String       @id @default(cuid())
+  email       String       @unique
+  name        String
+  password    String
+  role        String       @default("student")
+  createdAt   DateTime     @default(now())
+  enrollments Enrollment[]
+  reviews     Review[]
+}
+
+model Course {
+  id            String       @id @default(cuid())
+  title         String
+  slug          String       @unique
+  description   String
+  longDescription String
+  price         Float
+  originalPrice Float?
+  thumbnail     String
+  level         String
+  duration      String
+  totalLessons  Int
+  instructor    String
+  instructorBio String
+  instructorAvatar String
+  category      String
+  featured      Boolean      @default(false)
+  rating        Float        @default(0)
+  studentsCount Int          @default(0)
+  createdAt     DateTime     @default(now())
+  modules       Module[]
+  enrollments   Enrollment[]
+  reviews       Review[]
+}
+
+model Module {
+  id       String   @id @default(cuid())
+  courseId String
+  title    String
+  order    Int
+  course   Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons  Lesson[]
+}
+
+model Lesson {
+  id       String  @id @default(cuid())
+  moduleId String
+  title    String
+  duration String
+  free     Boolean @default(false)
+  order    Int
+  module   Module  @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+}
+
+model Enrollment {
+  id        String   @id @default(cuid())
+  userId    String
+  courseId  String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  courseId  String
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+}
